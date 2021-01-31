@@ -11,6 +11,7 @@ const getRandomInteger = function (firstInteger, lastInteger) {
 }
 
 const getRandomCoordinates = function (firstCoordinates, lastCoordinates, decimal) {
+  let randomCoordinates;
 
   if (firstCoordinates > lastCoordinates || firstCoordinates === lastCoordinates) {
     randomCoordinates = 'Введите корректные значения диапазона';
@@ -21,5 +22,5 @@ const getRandomCoordinates = function (firstCoordinates, lastCoordinates, decima
   return randomCoordinates.toFixed(decimal);
 }
 
-console.log(getRandomInteger(0, 2));
-console.log(getRandomCoordinates(0, 2, 2));
+getRandomInteger(2, 7);
+getRandomCoordinates(2, 7, 3);
