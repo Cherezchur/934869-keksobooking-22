@@ -28,15 +28,12 @@ const getRandomCoordinates = function (firstCoordinates, lastCoordinates, decima
   return randomCoordinates.toFixed(decimal);
 }
 
-getRandomInteger(2, 7);
-getRandomCoordinates(2, 7, 3);
-
 // function for create new array with random number element and not repeating elements
 
 const getRandomNonReapetingArray = function (dataArray) {
-  const getRandomNumber= () => {
-    let feature = dataArray[getRandomInteger(0, dataArray.length - 1)];
-    return feature;
+  const getRandomNumber = () => {
+    const randomNumberArray = dataArray[getRandomInteger(0, dataArray.length - 1)];
+    return randomNumberArray;
   }
   const getRandomNumberArray = new Array(getRandomInteger(0,5)).fill(null).map(() => getRandomNumber());
 
@@ -57,9 +54,9 @@ const getAvatarAdress = () => {
 // create title
 
 const TITLE = [
-  'The attic', 'Квартира №25' , 'Ласточкино гнездо' ,
-  'Undegraund' , 'Hipster house' , 'Уют' , 'Квартира №5, улица Героев' ,
-  'Grand Hotel Place' , 'Home hotel' , 'Sweet rooms',
+  'The attic', 'Квартира №25', 'Ласточкино гнездо',
+  'Undegraund', 'Hipster house', 'Уют', 'Квартира №5, улица Героев',
+  'Grand Hotel Place', 'Home hotel', 'Sweet rooms',
 ];
 
 // create price
@@ -83,9 +80,9 @@ const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'condit
 // create discription
 
 const DISCRIPTION = [
-  'Тихое, уютное гнездышко', 'Небольшая квартирка с удобной транспортной развязкой' , 'Пентхаус с видом на море' ,
-  'Подвальное андеграунд помещение' , 'Хипстеркий уголок' , 'Домик с терассой' , 'Квартира в элитном районе' ,
-  'Номер в отеле бизнес-класса' , 'Номер в квартале баров' , 'Комната-конфетка',
+  'Тихое, уютное гнездышко', 'Небольшая квартирка с удобной транспортной развязкой', 'Пентхаус с видом на море',
+  'Подвальное андеграунд помещение', 'Хипстеркий уголок', 'Домик с терассой', 'Квартира в элитном районе',
+  'Номер в отеле бизнес-класса', 'Номер в квартале баров', 'Комната-конфетка',
 ];
 
 // create photos
