@@ -1,4 +1,5 @@
-import * from './util.js';
+import {getRandomInteger, getRandomCoordinates, getRandomNonReapetingArray} from './util.js';
+
 // create advertising object
 
 // create autor
