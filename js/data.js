@@ -74,7 +74,9 @@ const createAd = () => {
   };
 };
 
-const advertising = new Array(10).fill(null).map(() => createAd());
+const ADVERTISING_COUNT = 1;
+
+const advertising = () => new Array(ADVERTISING_COUNT).fill(null).map(() => createAd());
 
 advertising;
 
