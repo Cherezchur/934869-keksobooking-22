@@ -1,6 +1,1 @@
-import {advertising} from './data.js';
-
-advertising;
-
-
-
+import './markup-ads.js';

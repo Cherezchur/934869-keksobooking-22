@@ -42,4 +42,4 @@ const getRandomNonReapetingArray = function (dataArray) {
   return getRandomNonRepeating
 }
 
-export {getRandomNumber, getRandomCoordinates, getRandomNonReapetingArray};
+export {getRandomInteger, getRandomCoordinates, getRandomNonReapetingArray};
