@@ -1,7 +1,7 @@
 //function for finding random values
 
 const getRandomNumber = function (firstNumber, lastNumber) {
-  return Math.random() * (lastNumber - firstNumber +1) + firstNumber;
+  return Math.random() * (lastNumber - firstNumber + 1) + firstNumber;
 }
 
 const getRandomInteger = function (firstInteger, lastInteger) {
@@ -35,7 +35,7 @@ const getRandomNonReapetingArray = function (dataArray) {
     const randomNumberArray = dataArray[getRandomInteger(0, dataArray.length - 1)];
     return randomNumberArray;
   }
-  const getRandomNumberArray = new Array(getRandomInteger(0,5)).fill(null).map(() => getRandomNumber());
+  const getRandomNumberArray = new Array(getRandomInteger(0, 5)).fill(null).map(() => getRandomNumber());
 
   const getRandomNonRepeating = getRandomNumberArray.reduce((x, y) => x.includes(y) ? x : [...x, y], []);
 
