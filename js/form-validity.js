@@ -2,11 +2,11 @@
 
 const typeList = document.querySelector('#type');
 const enteringThePrice = document.querySelector('#price');
+const typeValue = typeList.value;
 
 /* start min-price */
 
 const getMinPrice = (typeValue) => {
-  typeValue = typeList.value;
   switch (typeValue) {
     case 'bungalow': return 0;
     case 'flat': return 1000;
@@ -14,14 +14,16 @@ const getMinPrice = (typeValue) => {
     case 'palace': return 10000;
   }
 }
-enteringThePrice.setAttribute('min', getMinPrice());
+
+enteringThePrice.setAttribute('min', getMinPrice(typeValue));
 
 /* min price depending on event */
 
 const getMinAttribute = (evt) => {
-  let targetTypeValue = evt.target.value;
+  const targetTypeValue = evt.target.value;
 
   enteringThePrice.setAttribute('min', getMinPrice(targetTypeValue));
+  enteringThePrice.setAttribute('placeholder', getMinPrice(targetTypeValue));
 };
 
 typeList.addEventListener('change', getMinAttribute);
@@ -35,4 +37,9 @@ const getTimeOutValue = () => {
   timeOut.value = timeIn.value;
 }
 
+const getTimeInValue = () => {
+  timeIn.value = timeOut.value;
+}
+
 timeIn.addEventListener('change', getTimeOutValue);
+timeOut.addEventListener('change', getTimeInValue);
