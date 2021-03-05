@@ -16,7 +16,7 @@ card.forEach((adElement) => {
   adTemplate.querySelector('.popup__text--price').innerHTML = adElement.offer.price + ' <span>₽/ночь</span>';
 
   const typeOfHousing = () => {
-    let type = adElement.offer.type;
+    const type = adElement.offer.type;
     switch (type) {
       case 'palace': return 'Дворец';
       case 'flat': return 'Квартира';
@@ -38,7 +38,7 @@ card.forEach((adElement) => {
   }
   const getAddFeatures = () => {
     for (let i = 0; i < adElement.offer.features.length; i++) {
-      let feature = document.createElement('li');
+      const feature = document.createElement('li');
       feature.classList.add('popup__feature')
       feature.classList.add('popup__feature--' + adElement.offer.features[i]);
       featuresBlock.appendChild(feature);
@@ -54,7 +54,7 @@ card.forEach((adElement) => {
   photosBlock.removeChild(photo);
   const getAddPhoto = () => {
     for (let i = 0; i < adElement.offer.photos.length; i++) {
-      let photoContainer = photo.cloneNode(true);
+      const photoContainer = photo.cloneNode(true);
       photoContainer.setAttribute('src', adElement.offer.photos[i]);
       photosBlock.appendChild(photoContainer);
     }
