@@ -74,10 +74,8 @@ const createAd = () => {
   };
 };
 
-const ADVERTISING_COUNT = 1;
+const ADVERTISING_COUNT = 10;
 
 const advertising = () => new Array(ADVERTISING_COUNT).fill(null).map(() => createAd());
 
-advertising;
-
-export {advertising};
+export {advertising, ADVERTISING_COUNT};

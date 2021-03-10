@@ -2,14 +2,13 @@ import {advertising} from './data.js';
 
 // find the block for the final rendering of the ad
 
-const adOutput = document.querySelector('.map__canvas');
+// const adOutput = document.querySelector('.map__canvas');
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-
 const card = advertising();
 
-card.forEach((adElement) => {
-  const adTemplate = cardTemplate.cloneNode(true);
+const adTemplate = cardTemplate.cloneNode(true);
 
+card.forEach((adElement) => {
   adTemplate.querySelector('.popup__avatar').setAttribute('src', adElement.autor.avatar);
   adTemplate.querySelector('.popup__title').textContent = adElement.offer.title;
   adTemplate.querySelector('.popup__text--address').textContent = adElement.offer.address;
@@ -60,6 +59,7 @@ card.forEach((adElement) => {
     }
   }
   getAddPhoto();
-
-  adOutput.appendChild(adTemplate);
+  return adTemplate;
 })
+
+export {card, adTemplate};
