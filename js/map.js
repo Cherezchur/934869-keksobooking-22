@@ -1,6 +1,7 @@
 import {ADVERTISING_COUNT} from './data.js';
 import {disablendingElemenets} from './page-load.js';
 import {card, cardPopup} from './markup-ads.js';
+// import {L} from '../leaflet/leaflet.js';
 
 // loading the page and writing an address to a form
 
