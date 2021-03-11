@@ -1,7 +1,6 @@
-import {advertising, ADVERTISING_COUNT} from './data.js';
+import {ADVERTISING_COUNT} from './data.js';
 import {disablendingElemenets} from './page-load.js';
-import {card, adTemplate} from './markup-ads.js';
-// import { create } from 'browser-sync';
+import {card, cardPopup} from './markup-ads.js';
 
 // loading the page and writing an address to a form
 
@@ -56,26 +55,18 @@ mainMarker.on('moveend', (evt) => {
   coordinats.setAttribute('value', `${evt.target.getLatLng().lat.toFixed(4)} ${evt.target.getLatLng().lng.toFixed(4)}`);
 })
 
-// create balloon
+// create markers
 
-// const createCustomPopup = () => {
-//   const balloonTemplate = adTemplate;
-//   return balloonTemplate;
-// }
-
-// adding points
-
-// const cardData = advertising();
 const points = new Array();
 
 const getPointsAdress = () => {
   for (let i = 0; i < ADVERTISING_COUNT; i++) {
 
-    // let cardDescription = adTemplate;
+    let cardDescription = cardPopup(i);
     let locationX = card[i].location.x;
     let locationY = card[i].location.y;
     let point = {
-      // title: cardDescription,
+      title: cardDescription,
       lat: locationX,
       lng: locationY,
     }
@@ -86,7 +77,7 @@ const getPointsAdress = () => {
 
 const markerPoints = getPointsAdress();
 
-markerPoints.forEach(({lat, lng}) => {
+markerPoints.forEach(({lat, lng, title}) => {
   const pointsIcon = L.icon({
     iconUrl: '../img/pin.svg',
     iconSize: [50, 50],
@@ -103,8 +94,7 @@ markerPoints.forEach(({lat, lng}) => {
     },
   )
 
-  addressMarker.addTo(map).bindPopup(adTemplate);
-
+  addressMarker.addTo(map).bindPopup(title);
 })
 
 

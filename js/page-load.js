@@ -3,8 +3,6 @@ const mapFiltersForm = document.querySelector('.map__filters');
 const formsFieldset = form.querySelectorAll('fieldset');
 const interactiveElementsOfMapForm = Array.from(mapFiltersForm.children);
 
-
-
 const formDisabling = (formName) => {
   if(formName.classList.contains('ad-form--disabled')){
     formName.classList.remove('ad-form--disabled');
