@@ -54,7 +54,7 @@ mainMarker.addTo(map);
 
 mainMarker.on('moveend', (evt) => {
   coordinats.removeAttribute('value');
-  coordinats.setAttribute('value', `${evt.target.getLatLng().lat.toFixed(4)} ${evt.target.getLatLng().lng.toFixed(4)}`);
+  coordinats.setAttribute('value', `${evt.target.getLatLng().lat.toFixed(5)} ${evt.target.getLatLng().lng.toFixed(5)}`);
 })
 
 // create markers
