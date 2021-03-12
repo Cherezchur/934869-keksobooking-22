@@ -77,6 +77,7 @@ const selectedCapacityElement = () => {
       Array.from(capacity.children).forEach((element) => {
         if (element.value == roomElement.value) {
           element.setAttribute('selected', 'selected');
+          element.removeAttribute('disabled');
         }
       });
     }
