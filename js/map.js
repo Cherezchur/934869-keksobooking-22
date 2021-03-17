@@ -1,8 +1,8 @@
 /* global L:readonly */
 
-// import {ADVERTISING_COUNT} from './data.js';
+import {ADVERTISING_COUNT} from './data.js';
 import {disablendingElemenets} from './page-load.js';
-// import {card, cardPopup} from './markup-ads.js';
+import {card, cardPopup } from './markup-ads.js';
 
 // loading the page and writing an address to a form
 
@@ -63,44 +63,44 @@ mainMarker.on('moveend', (evt) => {
 
 // create markers
 
-// const points = new Array();
+const points = new Array();
 
-// const getPointsAdress = () => {
-//   for (let i = 0; i < ADVERTISING_COUNT; i++) {
+const getPointsAdress = () => {
+  for (let i = 0; i < ADVERTISING_COUNT; i++) {
 
-//     let cardDescription = cardPopup(i);
-//     let locationX = card[i].location.x;
-//     let locationY = card[i].location.y;
-//     let point = {
-//       adDescription: cardDescription,
-//       lat: locationX,
-//       lng: locationY,
-//     }
-//     points.push(point);
-//   }
-//   return points
-// };
+    let cardDescription = cardPopup(i);
+    let locationX = card[i].location.x;
+    let locationY = card[i].location.y;
+    let point = {
+      adDescription: cardDescription,
+      lat: locationX,
+      lng: locationY,
+    }
+    points.push(point);
+  }
+  return points
+};
 
-// const markerPoints = getPointsAdress();
+const markerPoints = getPointsAdress();
 
-// markerPoints.forEach(({lat, lng, adDescription}) => {
-//   const pointsIcon = L.icon({
-//     iconUrl: '../img/pin.svg',
-//     iconSize: [50, 50],
-//     iconAnchor: [25, 50],
-//   });
+markerPoints.forEach(({lat, lng, adDescription}) => {
+  const pointsIcon = L.icon({
+    iconUrl: '../img/pin.svg',
+    iconSize: [50, 50],
+    iconAnchor: [25, 50],
+  });
 
-//   const addressMarker = L.marker(
-//     {
-//       lat,
-//       lng,
-//     },
-//     {
-//       icon: pointsIcon,
-//     },
-//   )
+  const addressMarker = L.marker(
+    {
+      lat,
+      lng,
+    },
+    {
+      icon: pointsIcon,
+    },
+  )
 
-//   addressMarker.addTo(map).bindPopup(adDescription);
-// })
+  addressMarker.addTo(map).bindPopup(adDescription);
+})
 
 export {mainMarker, map, addingCoordinatesToAddress};
