@@ -1,17 +1,43 @@
 /* global L:readonly */
 
-import {ADVERTISING_COUNT} from './data.js';
 import {disablendingElemenets} from './page-load.js';
-import {card, cardPopup} from './markup-ads.js';
+import {cardPopup } from './markup-ads.js';
 
-// loading the page and writing an address to a form
+const coordinats = document.querySelector('#address');
 
-let coordinats = document.querySelector('#address');
+const addingCoordinatesToAddress = () => {
+  coordinats.setAttribute('value', `${mainMarker.getLatLng().lat} ${mainMarker.getLatLng().lng}`);
+}
 
 window.onload = () => {
   disablendingElemenets();
-  coordinats.setAttribute('value', `${mainMarker.getLatLng().lat} ${mainMarker.getLatLng().lng}`);
+  addingCoordinatesToAddress();
 };
+
+// create main marker
+
+const mainIcon = L.icon({
+  iconUrl: '../img/main-pin.svg',
+  iconSize: [50, 50],
+  iconAnchor: [25, 50],
+});
+
+const mainMarker = L.marker(
+  {
+    lat: 35.4122,
+    lng: 139.4130,
+  },
+  {
+    draggable: true,
+    icon: mainIcon,
+  },
+);
+
+mainMarker.on('moveend', (evt) => {
+  coordinats.removeAttribute('value');
+  coordinats.setAttribute('value', `${evt.target.getLatLng().lat.toFixed(5)} ${evt.target.getLatLng().lng.toFixed(5)}`);
+})
+
 
 // create map
 
@@ -31,44 +57,45 @@ L.tileLayer(
   },
 ).addTo(map);
 
-const mainIcon = L.icon({
-  iconUrl: '../img/main-pin.svg',
-  iconSize: [50, 50],
-  iconAnchor: [25, 50],
-});
-
-const mainMarker = L.marker(
-  {
-    lat: 35.4122,
-    lng: 139.4130,
-  },
-  {
-    draggable: true,
-    icon: mainIcon,
-  },
-);
-
 mainMarker.addTo(map);
 
-// replace address
+export const initMap = (offers) => {
 
-mainMarker.on('moveend', (evt) => {
-  coordinats.removeAttribute('value');
-  coordinats.setAttribute('value', `${evt.target.getLatLng().lat.toFixed(5)} ${evt.target.getLatLng().lng.toFixed(5)}`);
-})
+  const markerPoints = getPointsAdress(offers);
+  markerPoints.forEach(({lat, lng, adDescription}) => {
+    const pointsIcon = L.icon({
+      iconUrl: '../img/pin.svg',
+      iconSize: [50, 50],
+      iconAnchor: [25, 50],
+    });
+
+    const addressMarker = L.marker(
+      {
+        lat,
+        lng,
+      },
+      {
+        icon: pointsIcon,
+      },
+    )
+
+    addressMarker.addTo(map).bindPopup(adDescription);
+  })
+}
 
 // create markers
 
 const points = new Array();
 
-const getPointsAdress = () => {
-  for (let i = 0; i < ADVERTISING_COUNT; i++) {
+const getPointsAdress = (offers) => {
 
-    let cardDescription = cardPopup(i);
-    let locationX = card[i].location.x;
-    let locationY = card[i].location.y;
+  for (let i = 0; i < offers.length; i++) {
+
+    let cardDescription = cardPopup(offers[i]);
+    let locationX = offers[i].location.lat;
+    let locationY = offers[i].location.lng;
     let point = {
-      title: cardDescription,
+      adDescription: cardDescription,
       lat: locationX,
       lng: locationY,
     }
@@ -77,26 +104,4 @@ const getPointsAdress = () => {
   return points
 };
 
-const markerPoints = getPointsAdress();
-
-markerPoints.forEach(({lat, lng, title}) => {
-  const pointsIcon = L.icon({
-    iconUrl: '../img/pin.svg',
-    iconSize: [50, 50],
-    iconAnchor: [25, 50],
-  });
-
-  const addressMarker = L.marker(
-    {
-      lat,
-      lng,
-    },
-    {
-      icon: pointsIcon,
-    },
-  )
-
-  addressMarker.addTo(map).bindPopup(title);
-})
-
-
+export {mainMarker, addingCoordinatesToAddress, map};

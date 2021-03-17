@@ -3,6 +3,11 @@
 const typeList = document.querySelector('#type');
 const enteringThePrice = document.querySelector('#price');
 const typeValue = typeList.value;
+const adForm = document.querySelector('.ad-form');
+const nameField = adForm.querySelector('#title');
+const featuresList = adForm.querySelector('.features');
+const features = featuresList.querySelectorAll('input');
+const commentField = adForm.querySelector('#description');
 
 /* start min-price */
 
@@ -126,6 +131,22 @@ roomNumber.addEventListener('change', (evt) => {
     }
   })
 })
+
+const clearingForm = () => {
+  enteringThePrice.value = '';
+  typeList.value = 'flat';
+  nameField.value = '';
+  timeIn.value = '12:00';
+  timeOut.value = '12:00';
+  roomNumber.value = '1';
+  capacity.value = '1';
+  Array.from(features).forEach((element) => {
+    element.checked = false;
+  })
+  commentField.value = '';
+}
+
+export {adForm, clearingForm};
 
 
 
