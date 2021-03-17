@@ -3,9 +3,13 @@ import './util.js';
 import './data.js';
 import './form-logics.js';
 import './page-load.js';
-import './map.js';
-import {setUserForSubmit, showSuccessfulSendingMessage} from './submit-form.js';
+import {initMap} from './map.js';
+import {getData, initSubmitForm} from './api.js';
+import {showSuccessfulSendingMessage} from './submit-form.js';
 
-setUserForSubmit(showSuccessfulSendingMessage);
+const onLoad = (offers) => {
+  initMap(offers);
+}
 
-// export {getAdsDate};
+getData(onLoad);
+initSubmitForm(showSuccessfulSendingMessage);

@@ -1,14 +1,9 @@
-import {advertising} from './data.js';
-// import {getAdsDate} from './main.js';
-
-const card = advertising();
-
-const cardPopup = (i) => {
-  const cardObject = card[i];
+const cardPopup = (card) => {
+  const cardObject = card;
   const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
   const adTemplate = cardTemplate.cloneNode(true);
 
-  adTemplate.querySelector('.popup__avatar').setAttribute('src', cardObject.autor.avatar);
+  adTemplate.querySelector('.popup__avatar').setAttribute('src', cardObject.author.avatar);
   adTemplate.querySelector('.popup__title').textContent = cardObject.offer.title;
   adTemplate.querySelector('.popup__text--address').textContent = cardObject.offer.address;
   adTemplate.querySelector('.popup__text--price').innerHTML = cardObject.offer.price + ' <span>₽/ночь</span>';
@@ -61,4 +56,4 @@ const cardPopup = (i) => {
   return adTemplate;
 }
 
-export {card, cardPopup};
+export {cardPopup};

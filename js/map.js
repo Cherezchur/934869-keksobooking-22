@@ -1,10 +1,7 @@
 /* global L:readonly */
 
-import {ADVERTISING_COUNT} from './data.js';
 import {disablendingElemenets} from './page-load.js';
-import {card, cardPopup } from './markup-ads.js';
-
-// loading the page and writing an address to a form
+import {cardPopup } from './markup-ads.js';
 
 const coordinats = document.querySelector('#address');
 
@@ -17,9 +14,7 @@ window.onload = () => {
   addingCoordinatesToAddress();
 };
 
-// create map
-
-const mapContainer = document.querySelector('.map__canvas');
+// create main marker
 
 const mainIcon = L.icon({
   iconUrl: '../img/main-pin.svg',
@@ -38,6 +33,16 @@ const mainMarker = L.marker(
   },
 );
 
+mainMarker.on('moveend', (evt) => {
+  coordinats.removeAttribute('value');
+  coordinats.setAttribute('value', `${evt.target.getLatLng().lat.toFixed(5)} ${evt.target.getLatLng().lng.toFixed(5)}`);
+})
+
+
+// create map
+
+const mapContainer = document.querySelector('.map__canvas');
+
 const map = L.map(mapContainer)
   .on('load', disablendingElemenets)
   .setView({
@@ -54,23 +59,41 @@ L.tileLayer(
 
 mainMarker.addTo(map);
 
-// replace address
+export const initMap = (offers) => {
 
-mainMarker.on('moveend', (evt) => {
-  coordinats.removeAttribute('value');
-  coordinats.setAttribute('value', `${evt.target.getLatLng().lat.toFixed(5)} ${evt.target.getLatLng().lng.toFixed(5)}`);
-})
+  const markerPoints = getPointsAdress(offers);
+  markerPoints.forEach(({lat, lng, adDescription}) => {
+    const pointsIcon = L.icon({
+      iconUrl: '../img/pin.svg',
+      iconSize: [50, 50],
+      iconAnchor: [25, 50],
+    });
+
+    const addressMarker = L.marker(
+      {
+        lat,
+        lng,
+      },
+      {
+        icon: pointsIcon,
+      },
+    )
+
+    addressMarker.addTo(map).bindPopup(adDescription);
+  })
+}
 
 // create markers
 
 const points = new Array();
 
-const getPointsAdress = () => {
-  for (let i = 0; i < ADVERTISING_COUNT; i++) {
+const getPointsAdress = (offers) => {
 
-    let cardDescription = cardPopup(i);
-    let locationX = card[i].location.x;
-    let locationY = card[i].location.y;
+  for (let i = 0; i < offers.length; i++) {
+
+    let cardDescription = cardPopup(offers[i]);
+    let locationX = offers[i].location.lat;
+    let locationY = offers[i].location.lng;
     let point = {
       adDescription: cardDescription,
       lat: locationX,
@@ -81,26 +104,4 @@ const getPointsAdress = () => {
   return points
 };
 
-const markerPoints = getPointsAdress();
-
-markerPoints.forEach(({lat, lng, adDescription}) => {
-  const pointsIcon = L.icon({
-    iconUrl: '../img/pin.svg',
-    iconSize: [50, 50],
-    iconAnchor: [25, 50],
-  });
-
-  const addressMarker = L.marker(
-    {
-      lat,
-      lng,
-    },
-    {
-      icon: pointsIcon,
-    },
-  )
-
-  addressMarker.addTo(map).bindPopup(adDescription);
-})
-
-export {mainMarker, map, addingCoordinatesToAddress};
+export {mainMarker, addingCoordinatesToAddress, map};

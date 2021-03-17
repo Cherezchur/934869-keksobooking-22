@@ -1,5 +1,5 @@
 import {mainMarker, map, addingCoordinatesToAddress} from './map.js';
-import {adForm, clearingForm} from './form-logics.js';
+import {clearingForm} from './form-logics.js';
 
 // submitting a form
 
@@ -69,32 +69,9 @@ const errorMessageShow = () => {
   })
 };
 
-const setUserForSubmit = (onSuccess) => {
-  adForm.addEventListener('submit', (evt) => {
-
-    evt.preventDefault();
-
-    const formData = new FormData(evt.target);
-
-    fetch(
-      'https://22.javascript.pages.academy/keksobooking',
-      {
-        method: 'POST',
-        body: formData,
-      },
-    ).then((response) => {
-      if (response.ok) {
-        onSuccess();
-      } else {
-        errorMessageShow();
-      }
-    });
-  });
-}
-
 resetFormButton.addEventListener('click', () => {
   removeMainMarker();
   clearingForm();
 })
 
-export {setUserForSubmit, showSuccessfulSendingMessage};
+export {showSuccessfulSendingMessage, errorMessageShow};
