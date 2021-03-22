@@ -2,7 +2,9 @@
 
 import {disablendingElemenets} from './page-load.js';
 import {cardPopup } from './markup-ads.js';
+// import {getFilteredAds} from './filtered-ads.js';
 
+// const NUMBER_OF_ADS = 10;
 const coordinats = document.querySelector('#address');
 
 const addingCoordinatesToAddress = () => {
@@ -38,12 +40,11 @@ mainMarker.on('moveend', (evt) => {
   coordinats.setAttribute('value', `${evt.target.getLatLng().lat.toFixed(5)} ${evt.target.getLatLng().lng.toFixed(5)}`);
 })
 
-
 // create map
 
 const mapContainer = document.querySelector('.map__canvas');
 
-const map = L.map(mapContainer)
+let map = L.map(mapContainer)
   .on('load', disablendingElemenets)
   .setView({
     lat: 35.4122,
@@ -59,10 +60,34 @@ L.tileLayer(
 
 mainMarker.addTo(map);
 
-export const initMap = (offers) => {
+// const pointsIcon = L.icon({
+//   iconUrl: '../img/pin.svg',
+//   iconSize: [50, 50],
+//   iconAnchor: [25, 50],
+// });
 
-  const markerPoints = getPointsAdress(offers);
+// const addressMarker = (lat, lng) => {
+//   const marker = L.marker(
+//     {
+//       lat,
+//       lng,
+//     },
+//     {
+//       icon: pointsIcon,
+//     },
+//   )
+//   return marker;
+// }
+
+let markerPoints = new Array;
+
+const initMap = (offers) => {
+
+  console.log('initMap');
+
+  markerPoints = getPointsAdress(offers);
   markerPoints.forEach(({lat, lng, adDescription}) => {
+
     const pointsIcon = L.icon({
       iconUrl: '../img/pin.svg',
       iconSize: [50, 50],
@@ -78,9 +103,9 @@ export const initMap = (offers) => {
         icon: pointsIcon,
       },
     )
-
     addressMarker.addTo(map).bindPopup(adDescription);
   })
+  console.log(markerPoints);
 }
 
 // create markers
@@ -89,7 +114,7 @@ const points = new Array();
 
 const getPointsAdress = (offers) => {
 
-  for (let i = 0; i < offers.length; i++) {
+  for (let i = 0; i < offers.length ; i++) {
 
     let cardDescription = cardPopup(offers[i]);
     let locationX = offers[i].location.lat;
@@ -104,4 +129,4 @@ const getPointsAdress = (offers) => {
   return points
 };
 
-export {mainMarker, addingCoordinatesToAddress, map};
+export {mainMarker, addingCoordinatesToAddress, map, initMap, markerPoints};
