@@ -2,9 +2,7 @@
 
 import {disablendingElemenets} from './page-load.js';
 import {cardPopup } from './markup-ads.js';
-// import {getFilteredAds} from './filtered-ads.js';
 
-// const NUMBER_OF_ADS = 10;
 const coordinats = document.querySelector('#address');
 
 const addingCoordinatesToAddress = () => {
@@ -60,34 +58,25 @@ L.tileLayer(
 
 mainMarker.addTo(map);
 
-// const pointsIcon = L.icon({
-//   iconUrl: '../img/pin.svg',
-//   iconSize: [50, 50],
-//   iconAnchor: [25, 50],
-// });
+export const arrMarkers = new Array();
+let points = new Array();
 
-// const addressMarker = (lat, lng) => {
-//   const marker = L.marker(
-//     {
-//       lat,
-//       lng,
-//     },
-//     {
-//       icon: pointsIcon,
-//     },
-//   )
-//   return marker;
-// }
+const removeMark = (markers) => {
+  markers.forEach((el) => {
+    map.removeLayer(el);
+  })
 
-let markerPoints = new Array;
+  markers = [];
+  points = [];
+}
 
-const initMap = (offers) => {
+export const initMap = (offers) => {
+  if (arrMarkers.length) {
+    removeMark(arrMarkers)
+  }
 
-  console.log('initMap');
-
-  markerPoints = getPointsAdress(offers);
+  const markerPoints = getPointsAdress(offers);
   markerPoints.forEach(({lat, lng, adDescription}) => {
-
     const pointsIcon = L.icon({
       iconUrl: '../img/pin.svg',
       iconSize: [50, 50],
@@ -103,14 +92,14 @@ const initMap = (offers) => {
         icon: pointsIcon,
       },
     )
+    arrMarkers.push(addressMarker)
     addressMarker.addTo(map).bindPopup(adDescription);
   })
-  console.log(markerPoints);
+
+  return arrMarkers;
 }
 
 // create markers
-
-const points = new Array();
 
 const getPointsAdress = (offers) => {
 
@@ -129,4 +118,4 @@ const getPointsAdress = (offers) => {
   return points
 };
 
-export {mainMarker, addingCoordinatesToAddress, map, initMap, markerPoints};
+export {mainMarker, addingCoordinatesToAddress, map};

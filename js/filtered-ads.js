@@ -1,7 +1,31 @@
 import {initMap} from './map.js';
-import {ads} from './main.js'
+
+const ads = new Array;
+let filteredAds = new Array;
+
+export const getAds = (offers) => {
+  for (let i = 0 ; i < offers.length ; i++) {
+    ads.push(offers[i]);
+  }
+  return ads;
+}
 
 const housingType = document.querySelector('#housing-type');
+
+housingType.addEventListener('change', (offers) => {
+
+  filteredAds = [];
+
+  getAds(offers).forEach((element) => {
+    if (element.offer.type === housingType.value) {
+      filteredAds.push(element);
+    }
+    return filteredAds;
+  })
+
+  initMap(filteredAds);
+})
+
 // const housingPrice = document.querySelector('#housing-price');
 // const housingRooms = document.querySelector('#housing-rooms');
 // const housingGuests = document.querySelector('#housing-guests');
@@ -20,26 +44,6 @@ const housingType = document.querySelector('#housing-type');
 // const adsArray = (offers) => {
 
 // }
-
-const getFilteredAds = (ads) => {
-
-  const filteredAds = new Array;
-
-  ads.forEach((element) => {
-    if (element.offer.type === housingType.value) {
-      filteredAds.push(element);
-    }
-  })
-
-  return filteredAds;
-}
-
-housingType.addEventListener('change', () => {
-  const filteredAdsArray = getFilteredAds(ads);
-  // markerPoints = [];
-  initMap(filteredAdsArray);
-  // console.log(map);
-})
 
 // export {adsArray};
 
