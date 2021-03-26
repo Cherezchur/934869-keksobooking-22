@@ -19,6 +19,8 @@ housingType.addEventListener('change', (offers) => {
   getAds(offers).forEach((element) => {
     if (element.offer.type === housingType.value) {
       filteredAds.push(element);
+    } else if (housingType.value === 'any') {
+      filteredAds.push(element);
     }
     return filteredAds;
   })
