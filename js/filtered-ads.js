@@ -11,31 +11,7 @@ export const getAds = (offers) => {
   return ads;
 }
 
-// создаем общий массив
-
-const filteredMarkers = new Array;
-
-// пишем функцию которая инициализирует карты и передаем ей массив с метками
-
-const newMarkersInitMap = (filteredMarkers) => {
-
-  console.log(filteredMarkers);
-
-  for (let i = filteredMarkers.length -1 ; i > 0 ; i--) {
-    filteredMarkers.forEach((element) => {
-      if (filteredMarkers[i] == element) {
-        const indexOfEl = filteredMarkers.indexOf(filteredMarkers[i]);
-        filteredMarkers.splice(indexOfEl, 1);
-      }
-    })
-  }
-
-  console.log(filteredMarkers);
-
-  initMap(filteredMarkers);
-}
-
-// отлавливаем все события и меняем значение массива в одной функции
+// отлавливаем change на форме и записываем значение в value
 
 const housingType = document.querySelector('#housing-type');
 const housingPrice = document.querySelector('#housing-price');
@@ -43,98 +19,96 @@ const housingRooms = document.querySelector('#housing-rooms');
 const housingGuests = document.querySelector('#housing-guests');
 const housingFeatures = document.querySelector('#housing-features');
 const housingFeaturesList = housingFeatures.querySelectorAll('input');
-const checkedFeatures = () => {
-  const checkedFeaturesArray = new Array;
+// const checkedFeaturesArray = new Array;
+// Array.from(housingFeaturesList).forEach((element) => {
+//   if(element.checked == true) {
+//     checkedFeaturesArray.push(element.value);
+//   }
+// });
+
+
+// const filteredForm = document.addEventListener('.map__filters');
+
+let selectedValueOfTypeFilter = 'any';
+let selectedValueOfPriceFilter = 'any';
+let selectedValueOfRoomsFilter = 'any';
+let selectedValueOfGuestsFilter = 'any';
+let checkedFeaturesArray = new Array;
+
+const initializingFilteredAds = (offers) => {
+  getFilteredAds(offers, selectedValueOfTypeFilter, selectedValueOfPriceFilter, selectedValueOfRoomsFilter, selectedValueOfGuestsFilter, checkedFeaturesArray);
+}
+
+housingType.addEventListener('change', (offers) => {
+  selectedValueOfTypeFilter = housingType.value;
+  initializingFilteredAds(offers);
+})
+
+housingPrice.addEventListener('change', (offers) => {
+  selectedValueOfPriceFilter = housingPrice.value;
+  initializingFilteredAds(offers);
+})
+
+housingRooms.addEventListener('change', (offers) => {
+  selectedValueOfRoomsFilter = housingRooms.value;
+  initializingFilteredAds(offers);
+})
+
+housingGuests.addEventListener('change', (offers) => {
+  selectedValueOfGuestsFilter = housingGuests.value;
+  initializingFilteredAds(offers);
+})
+
+
+
+housingFeaturesList[0].addEventListener('change', (offers) => {
+
   Array.from(housingFeaturesList).forEach((element) => {
     if(element.checked == true) {
       checkedFeaturesArray.push(element.value);
     }
   });
-  return checkedFeaturesArray;
-}
 
-let filteredAdsType = new Array;
-let filteredAdsPrice = new Array;
-// let filteredAdsRooms = new Array;
-// let filteredAdsGuests = new Array;
-// let filteredAdsFeatures = new Array;
+  // selectedValueOfFeaturesFilter = () => {
+  //   const checkedFeaturesArray = new Array;
+  //   Array.from(housingFeaturesList).forEach((element) => {
+  //     if(element.checked == true) {
+  //       checkedFeaturesArray.push(element.value);
+  //     }
+  //   });
+  //   return checkedFeaturesArray;
+  // }
 
-const markersData = (offers, filteredsArray) => {
+  // checkedFeaturesArray = housingGuests.value;
+  initializingFilteredAds(offers);
+})
+
+// пишем функцию которая фильтрует наши объявления передаем в нее offers
+
+const getFilteredAds = (offers, selectedValueOfTypeFilter, selectedValueOfPriceFilter, selectedValueOfRoomsFilter, selectedValueOfGuestsFilter, selectedValueOfFeaturesFilter) => {
+
+  // создаем массив из всех объявлений
+
+  const filteredMarkers = new Array;
 
   getAds(offers).forEach((element) => {
-    filteredsArray.push(element);
-  });
-
-  for (let i = filteredsArray.length -1 ; i > 0 ; i--) {
-    getAds(offers).forEach((element) => {
-      if (filteredsArray[i] != element) {
-        const indexOfEl = filteredMarkers.indexOf(filteredMarkers[i]);
-        filteredMarkers.splice(indexOfEl, 1);
-      }
-    })
-  }
-  return filteredMarkers;
-}
-
-// type filters
-
-const pushFilteredElementType = (selectValue, filteredAdsType) => {
-
-  filteredAdsType.forEach((element) => {
-    if (selectValue === 'any') {
-      filteredAdsType.push(element);
-    }
-  })
-
-  if (selectValue === 'any') {
-    filteredAdsType.splice(0, filteredAdsType.length - 10);
-  } else {
-    for (let i = filteredAdsType.length - 1; i >= 0 ; i--) {
-      if (filteredAdsType[i].offer.type != selectValue) {
-        const indexOfEl = filteredAdsType.indexOf(filteredAdsType[i]);
-        filteredAdsType.splice(indexOfEl, 1);
-      }
-    }
-  }
-
-  filteredAdsType.forEach((element) => {
     filteredMarkers.push(element);
   })
 
-  return filteredMarkers;
-};
+  // type
 
-housingType.addEventListener('change', (offers) => {
-
-  // push data element markers
-
-  let selectValue = housingType.value;
-
-  if (filteredAdsType.length > 0) {
-    markersData(offers, filteredAdsType);
-    filteredMarkers.forEach((element) => {
-      filteredAdsType.push(element);
-    });
-  } else {
-    markersData(offers, filteredAdsType);
-  }
-
-  for (let i = filteredAdsType.length -1 ; i > 0 ; i--) {
-    filteredAdsType.forEach((element) => {
-      if (filteredAdsType[i] != element) {
+  if (selectedValueOfTypeFilter !== 'any') {
+    for (let i = filteredMarkers.length - 1; i >= 0 ; i--) {
+      if (filteredMarkers[i].offer.type !== selectedValueOfTypeFilter) {
         const indexOfEl = filteredMarkers.indexOf(filteredMarkers[i]);
         filteredMarkers.splice(indexOfEl, 1);
       }
-    })
+    }
   }
 
-  pushFilteredElementType(selectValue, filteredAdsType);
-  newMarkersInitMap(filteredMarkers);
-})
+  console.log(filteredMarkers);
 
-// price filters
-
-const pushFilteredElementPrice = (selectValue, filteredAdsPrice) => {
+  // price
 
   const getAdPriceValue = (element) => {
     if (element.offer.price < 10000) {
@@ -146,62 +120,90 @@ const pushFilteredElementPrice = (selectValue, filteredAdsPrice) => {
     }
   }
 
-  filteredAdsPrice.forEach((element) => {
-    if (selectValue === 'any') {
-      filteredAdsPrice.push(element);
-    }
-  })
-
-  if (selectValue === 'any') {
-    filteredAdsPrice.splice(0, filteredAdsPrice.length - 10);
-  } else {
-    for (let i = filteredAdsPrice.length - 1; i >= 0 ; i--) {
-      if (getAdPriceValue(filteredAdsPrice[i]) != selectValue) {
-        const indexOfEl = filteredAdsPrice.indexOf(filteredAdsPrice[i]);
-        filteredAdsPrice.splice(indexOfEl, 1);
-      }
-    }
-  }
-
-  filteredAdsPrice.forEach((element) => {
-    filteredMarkers.push(element);
-  })
-
-  console.log(filteredMarkers);
-};
-
-housingPrice.addEventListener('change', (offers) => {
-
-  let selectValue = housingPrice.value;
-
-  console.log(filteredAdsPrice);
-
-  if (filteredAdsPrice.length > 0) {
-    markersData(offers, filteredAdsPrice);
-    filteredMarkers.forEach((element) => {
-      filteredAdsPrice.push(element);
-    });
-  } else {
-    markersData(offers, filteredAdsPrice);
-  }
-
-  console.log(filteredAdsPrice);
-
-  for (let i = filteredAdsPrice.length -1 ; i > 0 ; i--) {
-    filteredAdsPrice.forEach((element) => {
-      if (filteredAdsPrice[i] != element) {
+  if (selectedValueOfPriceFilter !== 'any') {
+    for (let i = filteredMarkers.length - 1; i >= 0 ; i--) {
+      if (getAdPriceValue(filteredMarkers[i]) !== selectedValueOfPriceFilter) {
         const indexOfEl = filteredMarkers.indexOf(filteredMarkers[i]);
         filteredMarkers.splice(indexOfEl, 1);
       }
-    })
+    }
   }
 
-  pushFilteredElementPrice(selectValue, filteredAdsPrice);
-  initMap(filteredMarkers);
+
+  // rooms
+
+  if (selectedValueOfRoomsFilter !== 'any') {
+    for (let i = filteredMarkers.length - 1; i >= 0 ; i--) {
+      if (filteredMarkers[i].offer.rooms != selectedValueOfRoomsFilter) {
+        const indexOfEl = filteredMarkers.indexOf(filteredMarkers[i]);
+        filteredMarkers.splice(indexOfEl, 1);
+      }
+    }
+  }
+
+  // guests
+
+  const getAdGuestsValue = (element) => {
+    if (element.offer.guests == 1) {
+      return 1;
+    } else if (element.offer.guests == 2) {
+      return 2;
+    } else if (element.offer.guests > 2) {
+      return 0;
+    }
+  }
+
+  if (selectedValueOfGuestsFilter !== 'any') {
+    for (let i = filteredMarkers.length - 1; i >= 0 ; i--) {
+      if (getAdGuestsValue(filteredMarkers[i]) != selectedValueOfGuestsFilter) {
+        const indexOfEl = filteredMarkers.indexOf(filteredMarkers[i]);
+        filteredMarkers.splice(indexOfEl, 1);
+      }
+    }
+  }
+
+  // features
+
+  if (checkedFeaturesArray.length > 0) {
+
+
+    for (let i = filteredMarkers.length - 1; i >= 0 ; i--) {
+      const adFeatures = filteredMarkers[i].offer.features;
+      for (let j = adFeatures.length - 1; j >= 0 ; j--) {
+        checkedFeaturesArray.forEach((element) => {
+          if (adFeatures[j] !== element) {
+            const indexOfEl = filteredMarkers.indexOf(filteredMarkers[i]);
+            filteredMarkers.splice(indexOfEl, 1);
+          }
+        })
+      }
+
+    }
+
+    // const featuresArray = filteredMarkers[i].offer.features;
+    // console.log(featuresArray);
+    // checkedFeaturesArray.forEach((element) => {
+    //   filteredMarkers[i].offer.features.forEach((el) => {
+    //     if (el !== element) {
+    //       const indexOfEl = filteredMarkers.indexOf(filteredMarkers[i]);
+    //       filteredMarkers.splice(indexOfEl, 1);
+    //     }
+    //   })
+    // })
+  }
+
+  // checkedFeatures().forEach((element) => {
+  //   ad.offer.features.some((value) => {
+  //     if (value == element) {
+  //       rank +=1;
+  //     }
+  //   })
+  // });
 
   console.log(filteredMarkers);
-})
 
+  initMap(filteredMarkers);
+}
 
 // const getAdsRank = (ad) => {
 
@@ -249,5 +251,3 @@ housingPrice.addEventListener('change', (offers) => {
 
 //   return rank;
 // }
-
-
